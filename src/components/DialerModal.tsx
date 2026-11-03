@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
-import { X, Phone, Delete, Hash, Asterisk, Sparkles } from 'lucide-react';
+import { X, Phone, Delete, Hash, Asterisk, Sparkles, Building2, User } from 'lucide-react';
 import { FoundifyVertical } from '../types/telephony';
-import { ServiceChip } from './ServiceChip';
 
 interface DialerModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onDial: (phoneNumber: string, vertical?: FoundifyVertical) => void;
+  onDial: (phoneNumber: string, studentName?: string, scenario?: 'match_alert' | 'security_vault' | 'custom') => void;
 }
 
 export const DialerModal: React.FC<DialerModalProps> = ({ isOpen, onClose, onDial }) => {
-  const [inputNumber, setInputNumber] = useState<string>('+1 (415) 890-3411');
-  const [selectedVertical, setSelectedVertical] = useState<FoundifyVertical>('Lost & Found');
+  const [inputNumber, setInputNumber] = useState<string>('+91 98765 43210');
+  const [studentName, setStudentName] = useState<string>('Rohan Patel');
+  const [scenario, setScenario] = useState<'match_alert' | 'security_vault' | 'custom'>('match_alert');
 
   if (!isOpen) return null;
 
-  const quickHotlines: { name: string; number: string; vertical: FoundifyVertical }[] = [
-    { name: 'Lost & Found Recovery', number: '+1 (415) 890-3411', vertical: 'Lost & Found' },
-    { name: 'Marketplace Escrow Desk', number: '+1 (415) 890-3412', vertical: 'Marketplace' },
-    { name: 'Rentals Smart Lock Desk', number: '+1 (512) 600-8840', vertical: 'Rentals' },
-    { name: 'Emergency Services Dispatch', number: '+1 (206) 400-9122', vertical: 'Services' },
-    { name: 'Giveaways Community Desk', number: '+1 (718) 390-1105', vertical: 'Giveaways' },
+  const campusSpeedDials = [
+    { label: 'Rohan Patel (AirPods Match)', number: '+91 98765 43210', name: 'Rohan Patel', scenario: 'match_alert' as const },
+    { label: 'Sneha Sharma (ID Lanyard)', number: '+91 98251 12345', name: 'Sneha Sharma', scenario: 'security_vault' as const },
+    { label: 'Aditya Dave (PIET Calculator)', number: '+91 97123 45678', name: 'Aditya Dave', scenario: 'match_alert' as const },
+    { label: 'Central Lost & Found (Ext 102)', number: '+91 (2668) 260-312', name: 'Helpline Ext 102', scenario: 'custom' as const },
+    { label: 'C5 Security Vault HQ (Ext 501)', number: '+91 (2668) 260-501', name: 'Security Vault C5', scenario: 'security_vault' as const },
   ];
 
   const handleDigit = (digit: string) => {
@@ -31,13 +31,14 @@ export const DialerModal: React.FC<DialerModalProps> = ({ isOpen, onClose, onDia
     setInputNumber((prev) => prev.slice(0, -1));
   };
 
-  const handleSelectHotline = (hotline: { number: string; vertical: FoundifyVertical }) => {
-    setInputNumber(hotline.number);
-    setSelectedVertical(hotline.vertical);
+  const handleSelectHotline = (item: typeof campusSpeedDials[0]) => {
+    setInputNumber(item.number);
+    setStudentName(item.name);
+    setScenario(item.scenario);
   };
 
   const handleCall = () => {
-    onDial(inputNumber, selectedVertical);
+    onDial(inputNumber, studentName, scenario);
     onClose();
   };
 
@@ -66,11 +67,11 @@ export const DialerModal: React.FC<DialerModalProps> = ({ isOpen, onClose, onDia
         <div className="h-12 px-4 border-b border-[#E2E8F0] flex items-center justify-between bg-[#F8FAFC]">
           <div className="flex items-center gap-2">
             <Phone className="w-4 h-4 text-[#2563EB]" />
-            <span className="text-xs font-semibold text-[#0F172A]">Telephony Keypad Dialer</span>
+            <span className="text-xs font-bold text-[#0F172A]">Campus Telephony Dialer</span>
           </div>
           <button
             onClick={onClose}
-            className="w-7 h-7 rounded-md text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] flex items-center justify-center"
+            className="w-7 h-7 rounded-md text-[#64748B] hover:text-[#0F172A] hover:bg-[#F1F5F9] flex items-center justify-center cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -78,8 +79,9 @@ export const DialerModal: React.FC<DialerModalProps> = ({ isOpen, onClose, onDia
 
         {/* Display Screen */}
         <div className="p-4 bg-[#F8FAFC] border-b border-[#E2E8F0] text-center">
-          <div className="flex items-center justify-center gap-2 mb-1">
-            <ServiceChip vertical={selectedVertical} size="sm" />
+          <div className="flex items-center justify-center gap-1.5 mb-1 text-xs text-[#2563EB] font-bold">
+            <User className="w-3.5 h-3.5" />
+            <span>Target: {studentName}</span>
           </div>
           <div className="flex items-center justify-center gap-2">
             <input
@@ -91,31 +93,31 @@ export const DialerModal: React.FC<DialerModalProps> = ({ isOpen, onClose, onDia
             {inputNumber && (
               <button
                 onClick={handleBackspace}
-                className="text-[#94A3B8] hover:text-[#EF4444] transition-colors p-1"
+                className="text-[#94A3B8] hover:text-[#EF4444] transition-colors p-1 cursor-pointer"
               >
                 <Delete className="w-4 h-4" />
               </button>
             )}
           </div>
-          <p className="text-[11px] font-mono text-[#64748B] mt-1">Carrier Route: WebRTC Full-Duplex</p>
+          <p className="text-[10px] font-mono text-[#64748B] mt-1">Parul University Campus Voice Line</p>
         </div>
 
-        {/* Quick Hotlines Drawer */}
+        {/* Quick Speed Dials */}
         <div className="p-3 border-b border-[#E2E8F0] bg-white">
-          <span className="text-[10px] font-semibold uppercase tracking-wider text-[#94A3B8] block mb-1.5">
-            Quick Vertical Hotlines
+          <span className="text-[10px] font-bold uppercase tracking-wider text-[#94A3B8] block mb-1.5">
+            Campus Speed Dials &amp; Match Targets
           </span>
           <div className="space-y-1">
-            {quickHotlines.map((h) => (
+            {campusSpeedDials.map((h) => (
               <button
                 key={h.number}
                 onClick={() => handleSelectHotline(h)}
-                className={`w-full text-left p-1.5 rounded-md text-xs flex items-center justify-between transition-colors ${
-                  inputNumber === h.number ? 'bg-[#EFF6FF] border border-[#BFDBFE]' : 'hover:bg-[#F8FAFC]'
+                className={`w-full text-left p-1.5 rounded-lg text-xs flex items-center justify-between transition-colors cursor-pointer ${
+                  inputNumber === h.number ? 'bg-blue-50 border border-blue-200' : 'hover:bg-[#F8FAFC]'
                 }`}
               >
-                <span className="font-medium text-[#1E293B]">{h.name}</span>
-                <span className="font-mono text-[11px] text-[#64748B]">{h.number}</span>
+                <span className="font-semibold text-[#1E293B]">{h.label}</span>
+                <span className="font-mono text-[10px] text-[#64748B]">{h.number}</span>
               </button>
             ))}
           </div>
@@ -127,9 +129,9 @@ export const DialerModal: React.FC<DialerModalProps> = ({ isOpen, onClose, onDia
             <button
               key={k.num}
               onClick={() => handleDigit(k.num)}
-              className="h-12 rounded-xl bg-[#F8FAFC] hover:bg-[#F1F5F9] active:bg-[#E2E8F0] text-[#0F172A] flex flex-col items-center justify-center transition-all select-none border border-[#E2E8F0]"
+              className="h-11 rounded-xl bg-[#F8FAFC] hover:bg-[#F1F5F9] active:bg-[#E2E8F0] text-[#0F172A] flex flex-col items-center justify-center transition-all select-none border border-[#E2E8F0] cursor-pointer"
             >
-              <span className="font-mono text-base font-semibold">{k.num}</span>
+              <span className="font-mono text-base font-bold">{k.num}</span>
               {k.sub && <span className="text-[9px] font-mono text-[#94A3B8] leading-none">{k.sub}</span>}
             </button>
           ))}
@@ -140,10 +142,10 @@ export const DialerModal: React.FC<DialerModalProps> = ({ isOpen, onClose, onDia
           <button
             onClick={handleCall}
             disabled={!inputNumber}
-            className="w-full h-11 bg-[#2563EB] hover:bg-[#1D4ED8] disabled:bg-slate-300 text-white font-semibold text-xs rounded-xl shadow-sm flex items-center justify-center gap-2 transition-all active:scale-98"
+            className="w-full h-11 bg-emerald-600 hover:bg-emerald-700 disabled:bg-slate-300 text-white font-bold text-xs rounded-xl shadow-xs flex items-center justify-center gap-2 transition-all active:scale-98 cursor-pointer"
           >
             <Phone className="w-4 h-4 fill-current" />
-            <span>Connect Voice AI Agent</span>
+            <span>Dispatch AI Call Now</span>
           </button>
         </div>
       </div>

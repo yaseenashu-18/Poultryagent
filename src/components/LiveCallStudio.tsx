@@ -316,12 +316,14 @@ export const LiveCallStudio: React.FC<LiveCallStudioProps> = ({
         const data = await response.json();
         if (data.audio) {
           const audio = await playWavBase64(data.audio);
-          currentAudioElementRef.current = audio;
-          audio.onended = () => {
-            setIsSpeaking(false);
-            currentAudioElementRef.current = null;
-          };
-          return;
+          if (audio) {
+            currentAudioElementRef.current = audio;
+            audio.onended = () => {
+              setIsSpeaking(false);
+              currentAudioElementRef.current = null;
+            };
+            return;
+          }
         }
       }
     } catch (err) {
@@ -561,9 +563,11 @@ export const LiveCallStudio: React.FC<LiveCallStudioProps> = ({
           if (data.audio && isAudioOutEnabled) {
             // Play generated human voice audio immediately
             const audio = await playWavBase64(data.audio);
-            currentAudioElementRef.current = audio;
-            setIsSpeaking(true);
-            audio.onended = () => setIsSpeaking(false);
+            if (audio) {
+              currentAudioElementRef.current = audio;
+              setIsSpeaking(true);
+              audio.onended = () => setIsSpeaking(false);
+            }
           }
         } else {
           agentReply = `I have logged your request: "${callerSpeech}". Foundify ledger updated and verified with primary operator credentials.`;

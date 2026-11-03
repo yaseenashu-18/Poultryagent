@@ -20,13 +20,13 @@ export type VoiceModel =
   | 'Deepgram Nova-2 + Aura'
   | 'Cartesia Sonic Enterprise';
 
-export type CallStatus = 'Completed' | 'Live' | 'Transferred' | 'Dropped';
+export type CallStatus = 'Completed' | 'Live' | 'Transferred' | 'Dropped' | 'Ringing';
 
 export type Sentiment = 'Positive' | 'Neutral' | 'Frustrated' | 'Resolved';
 
 export interface TranscriptTurn {
   id: string;
-  speaker: 'agent' | 'caller';
+  speaker: 'agent' | 'caller' | 'user';
   text: string;
   timestamp: string;
   latencyMs?: number;
@@ -48,6 +48,7 @@ export interface CallRecord {
   callerId: string;
   callerName: string;
   vertical: FoundifyVertical;
+  campusLocation?: string;
   voiceModel: VoiceModel;
   status: CallStatus;
   durationSeconds: number;
@@ -64,6 +65,27 @@ export interface CallRecord {
   transcript: TranscriptTurn[];
   costUsd: number;
   sipTrunk: string;
+}
+
+export interface OutboundQueueItem {
+  id: string;
+  studentName: string;
+  enrollmentNo: string;
+  department: string;
+  phone: string;
+  matchedItem: string;
+  itemCategory: string;
+  locationFound: string;
+  buildingCode: string;
+  matchConfidence: number;
+  priority: 'Urgent' | 'High' | 'Standard';
+  callReason: string;
+  status: 'Queued' | 'Dialing' | 'Connected' | 'Completed' | 'Callback Needed';
+  assignedVoice: HumanVoiceName;
+  language: 'en' | 'hi' | 'te';
+  scheduledTime: string;
+  photoUrl?: string;
+  scenarioType: 'match_alert' | 'security_vault' | 'custom';
 }
 
 export interface AgentPromptConfig {

@@ -16,24 +16,35 @@ import { ServiceChip } from './ServiceChip';
 interface CallRecordsProps {
   calls: CallRecord[];
   onSelectCall: (call: CallRecord) => void;
-  selectedVertical: FoundifyVertical | 'All';
-  onSelectVertical: (vert: FoundifyVertical | 'All') => void;
+  selectedVertical?: FoundifyVertical | 'All';
+  onSelectVertical?: (vert: FoundifyVertical | 'All') => void;
 }
 
 export const CallRecords: React.FC<CallRecordsProps> = ({
   calls,
   onSelectCall,
-  selectedVertical,
+  selectedVertical = 'All',
   onSelectVertical,
 }) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<string>('All');
   const [sortBy, setSortBy] = useState<'timestamp' | 'duration' | 'latency'>('timestamp');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [internalVertical, setInternalVertical] = useState<FoundifyVertical | 'All'>(selectedVertical);
+
+  const activeVertical = onSelectVertical ? selectedVertical : internalVertical;
+
+  const handleVerticalChange = (v: FoundifyVertical | 'All') => {
+    if (onSelectVertical) {
+      onSelectVertical(v);
+    } else {
+      setInternalVertical(v);
+    }
+  };
 
   const filteredCalls = useMemo(() => {
     return calls.filter((c) => {
-      const matchesVertical = selectedVertical === 'All' || c.vertical === selectedVertical;
+      const matchesVertical = activeVertical === 'All' || c.vertical === activeVertical;
       const matchesStatus = statusFilter === 'All' || c.status === statusFilter;
       const query = searchQuery.toLowerCase().trim();
       const matchesSearch =
@@ -143,9 +154,9 @@ export const CallRecords: React.FC<CallRecordsProps> = ({
           {verticalsList.map((vert) => (
             <button
               key={vert}
-              onClick={() => onSelectVertical(vert)}
+              onClick={() => handleVerticalChange(vert)}
               className={`px-3 py-1.5 text-xs rounded-md font-medium transition-colors flex-shrink-0 ${
-                selectedVertical === vert
+                activeVertical === vert
                   ? 'bg-[#2563EB] text-white shadow-xs'
                   : 'bg-[#F8FAFC] text-[#475569] hover:bg-[#F1F5F9] hover:text-[#0F172A]'
               }`}

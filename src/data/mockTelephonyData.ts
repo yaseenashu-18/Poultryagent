@@ -1,436 +1,438 @@
-import { CallRecord, AgentPromptConfig, PhoneNumberRecord } from '../types/telephony';
+import { CallRecord, AgentPromptConfig, PhoneNumberRecord, OutboundQueueItem } from '../types/telephony';
+
+export const INITIAL_OUTBOUND_QUEUE: OutboundQueueItem[] = [
+  {
+    id: 'queue-pu-01',
+    studentName: 'Rohan Patel',
+    enrollmentNo: 'PU-2023-BTECH-CSE-0412',
+    department: 'Computer Science & Engineering',
+    phone: '+91 98765 43210',
+    matchedItem: 'Apple AirPods Pro (2nd Gen) in White Case',
+    itemCategory: 'Electronics',
+    locationFound: 'Central Library A27, 2nd Floor Cubicle 18',
+    buildingCode: 'A27',
+    matchConfidence: 96,
+    priority: 'Urgent',
+    callReason: 'High confidence match found for reported lost AirPods with yellow silicone strap',
+    status: 'Queued',
+    assignedVoice: 'Zephyr',
+    language: 'en',
+    scheduledTime: 'Immediate Dispatch',
+    photoUrl: 'https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?auto=format&fit=crop&w=600&q=80',
+    scenarioType: 'match_alert',
+  },
+  {
+    id: 'queue-pu-02',
+    studentName: 'Sneha Sharma',
+    enrollmentNo: 'PU-2024-IT-0891',
+    department: 'Information Technology',
+    phone: '+91 98251 12345',
+    matchedItem: 'Parul University Official ID Lanyard',
+    itemCategory: 'Academic & College ID',
+    locationFound: 'Food Court F1, Subway Counter Table #4',
+    buildingCode: 'F1',
+    matchConfidence: 98,
+    priority: 'High',
+    callReason: 'Student ID card handed over by cafeteria supervisor; verification required',
+    status: 'Queued',
+    assignedVoice: 'Kore',
+    language: 'hi',
+    scheduledTime: 'Next in Queue',
+    photoUrl: 'https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=600&q=80',
+    scenarioType: 'security_vault',
+  },
+  {
+    id: 'queue-pu-03',
+    studentName: 'Aditya Dave',
+    enrollmentNo: 'PU-2023-ECE-0194',
+    department: 'Electronics & Communication',
+    phone: '+91 97123 45678',
+    matchedItem: 'Casio ClassWiz FX-991CW Calculator',
+    itemCategory: 'Academic & College ID',
+    locationFound: 'PIET A1 Engineering Hub, Room 204 Lab',
+    buildingCode: 'A1',
+    matchConfidence: 94,
+    priority: 'Standard',
+    callReason: 'Calculator with initials R.K. engraved deposited in Room 204 bench',
+    status: 'Queued',
+    assignedVoice: 'Puck',
+    language: 'en',
+    scheduledTime: 'Today, 14:30',
+    photoUrl: 'https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?auto=format&fit=crop&w=600&q=80',
+    scenarioType: 'match_alert',
+  },
+  {
+    id: 'queue-pu-04',
+    studentName: 'Deepak Chaudhary',
+    enrollmentNo: 'PU-2022-BARCH-0052',
+    department: 'Architecture & Design',
+    phone: '+91 94280 65432',
+    matchedItem: 'Wildhorn Brown Leather Bi-fold Wallet',
+    itemCategory: 'Personal Belongings',
+    locationFound: 'Bhagat Singh Bhawan A24, 1st Floor Corridor',
+    buildingCode: 'A24',
+    matchConfidence: 92,
+    priority: 'Urgent',
+    callReason: 'Wallet with Driving License and PU Metro card awaiting custody clearance',
+    status: 'Queued',
+    assignedVoice: 'Charon',
+    language: 'hi',
+    scheduledTime: 'Today, 15:00',
+    photoUrl: 'https://images.unsplash.com/photo-1627123424574-724758594e93?auto=format&fit=crop&w=600&q=80',
+    scenarioType: 'match_alert',
+  },
+  {
+    id: 'queue-pu-05',
+    studentName: 'Kunal Joshi',
+    enrollmentNo: 'PU-2023-ME-0611',
+    department: 'Mechanical Engineering',
+    phone: '+91 99090 87654',
+    matchedItem: 'Fastrack Stainless Steel Water Bottle',
+    itemCategory: 'Personal Belongings',
+    locationFound: 'Sports Ground G1 Pavilion Spectator Benches',
+    buildingCode: 'G1',
+    matchConfidence: 89,
+    priority: 'Standard',
+    callReason: 'Matte blue bottle with coding stickers claimed by resident of Tagore Hostel H4',
+    status: 'Queued',
+    assignedVoice: 'Fenrir',
+    language: 'en',
+    scheduledTime: 'Today, 15:45',
+    photoUrl: 'https://images.unsplash.com/photo-1602143407151-7111542de6e8?auto=format&fit=crop&w=600&q=80',
+    scenarioType: 'custom',
+  },
+];
 
 export const INITIAL_CALL_RECORDS: CallRecord[] = [
   {
-    id: 'call-1049',
-    callSid: 'CA9f482a0910cbe7781b94e334fa12a',
-    callerId: '+1 (415) 555-0198',
-    callerName: 'Elena Rostova',
+    id: 'call-pu-1049',
+    callSid: 'CA-PU-9f482a0910cbe7781b94e334fa12a',
+    callerId: '+91 98765 43210',
+    callerName: 'Rohan Patel',
     vertical: 'Lost & Found',
-    voiceModel: 'ElevenLabs Flash v2.5',
+    campusLocation: 'Central Library A27 / Building C5 Vault',
+    voiceModel: 'Gemini 3.8 Live (Live API)',
     status: 'Completed',
     durationSeconds: 142,
     durationFormatted: '02:22',
-    latencyMs: 198,
-    packetJitterMs: 1.8,
-    timestamp: '2026-11-03T00:48:12Z',
-    dateFormatted: 'Today, 00:48',
+    latencyMs: 148,
+    packetJitterMs: 1.1,
+    timestamp: '2026-11-03T02:15:12Z',
+    dateFormatted: 'Today, 02:15',
     sentiment: 'Resolved',
-    intent: 'Inquire lost laptop bag at SFO Terminal 2',
-    summary: 'Caller misplaced a black Tumi laptop bag containing a silver MacBook Pro at Gate B4 security checkpoint. Agent queried Foundify physical inventory, located match #LF-9921 logged by TSA at 23:15, and verified ownership via serial number snippet. Digital custody claim link dispatched via SMS.',
-    resolution: 'Verified item match in warehouse; claim ticket generated',
+    intent: 'Verify match for AirPods Pro 2nd Gen with yellow carabiner',
+    summary: 'Autonomous AI outbound call dispatched to student Rohan Patel regarding white Apple AirPods Pro found at Central Library A27. Agent verified the identifying yellow silicone loop strap, matched serial profile, and confirmed deposit into Central Security Vault (Building C5 Room 102). Security Token #SEC-VAULT-2026-8841 sent via encrypted SMS.',
+    resolution: 'Ownership verified; Security token #SEC-VAULT-2026-8841 issued for C5 Vault pickup',
     entities: [
-      { label: 'Item Type', value: 'Black Tumi Alpha Briefcase', category: 'Item', confidence: 0.99 },
-      { label: 'Hardware', value: '16" MacBook Pro Silver (M3)', category: 'Property', confidence: 0.96 },
-      { label: 'Location', value: 'SFO Terminal 2 - Gate B4', category: 'Terminal', confidence: 0.98 },
-      { label: 'Custody Match', value: 'Foundify Vault Bay 4-C', category: 'Inventory', confidence: 0.94 },
+      { label: 'Item Match', value: 'AirPods Pro 2nd Gen (White)', category: 'Hardware', confidence: 0.99 },
+      { label: 'Identifier', value: 'Yellow silicone carabiner loop', category: 'Marking', confidence: 0.98 },
+      { label: 'Campus Location', value: 'Central Library A27, 2nd Floor', category: 'CampusGeo', confidence: 0.97 },
+      { label: 'Deposit Vault', value: 'Building C5 Room 102 (Officer Mahendra Rathod)', category: 'Security', confidence: 0.99 },
     ],
     transcript: [
-      { id: 't1', speaker: 'agent', text: 'Thank you for calling Foundify Lost & Found Operations. I can assist with item claims across all registered transport hubs. What item are you looking for?', timestamp: '00:01', latencyMs: 210 },
-      { id: 't2', speaker: 'caller', text: 'Hi! I think I left my work laptop bag at San Francisco Airport terminal 2 around an hour ago. It was near gate B4.', timestamp: '00:08' },
-      { id: 't3', speaker: 'agent', text: 'Checking the live SFO terminal 2 custody intake now. Could you confirm the brand, color, and any identifying electronics inside?', timestamp: '00:14', latencyMs: 188 },
-      { id: 't4', speaker: 'caller', text: 'Yes, it is a black ballistic nylon Tumi briefcase. Inside is a 16-inch silver MacBook Pro with a blue sticker of an astronaut on the lid.', timestamp: '00:23' },
-      { id: 't5', speaker: 'agent', text: 'Found a direct match logged 38 minutes ago by airport screening: Tag number LF-9921, black nylon briefcase matching that exact description. I have initiated an inventory hold.', timestamp: '00:32', latencyMs: 194 },
-      { id: 't6', speaker: 'caller', text: 'Oh thank goodness! How do I pick it up or have it couriered?', timestamp: '00:39' },
-      { id: 't7', speaker: 'agent', text: 'I just dispatched a secure verification link to this phone number. You can choose counter pickup at the baggage service desk or bonded courier dispatch to your address.', timestamp: '00:46', latencyMs: 202 },
-      { id: 't8', speaker: 'caller', text: 'Got the SMS already. Thank you so much for the quick help!', timestamp: '00:52' },
-      { id: 't9', speaker: 'agent', text: 'You are welcome. Have a safe journey, Elena.', timestamp: '00:55', latencyMs: 175 }
+      { id: 't1', speaker: 'agent', text: 'Hello Rohan! This is Foundify AI, calling on behalf of Parul University Central Security. I am reaching out regarding a report of your lost white AirPods.', timestamp: '00:01', latencyMs: 145 },
+      { id: 't2', speaker: 'caller', text: 'Hi! Yes! Did someone find my AirPods? I have been looking everywhere since yesterday.', timestamp: '00:07' },
+      { id: 't3', speaker: 'agent', text: 'Yes, a pair of Apple AirPods Pro 2nd Gen in a white charging case was deposited from Central Library A27, second floor reading hall. Can you confirm if your case had any specific accessories?', timestamp: '00:15', latencyMs: 142 },
+      { id: 't4', speaker: 'caller', text: 'Yes! It has a bright yellow silicone strap with a small metal carabiner ring attached.', timestamp: '00:23' },
+      { id: 't5', speaker: 'agent', text: 'That is an exact match. Pooja Nair from B.Pharm turned them over, and they are safely logged in the Building C5 Central Security Vault under Token number SEC-VAULT-2026-8841.', timestamp: '00:32', latencyMs: 150 },
+      { id: 't6', speaker: 'caller', text: 'That is amazing! Can you send me the claim pass so I can show it to the officer?', timestamp: '00:39' },
+      { id: 't7', speaker: 'agent', text: 'I just dispatched your official recovery pass to your mobile phone. You can collect it from Officer Mahendra Rathod at Building C5 with your Parul University student ID card.', timestamp: '00:46', latencyMs: 148 },
+      { id: 't8', speaker: 'caller', text: 'Thank you so much Foundify!', timestamp: '00:51' },
+      { id: 't9', speaker: 'agent', text: 'Glad to help, Rohan. Have a wonderful day at Parul University!', timestamp: '00:55', latencyMs: 138 }
     ],
-    costUsd: 0.048,
-    sipTrunk: 'sfo-carrier-01.sip.foundify.ai'
+    costUsd: 0.038,
+    sipTrunk: 'pu-trunk-01.sip.foundify.ai'
   },
   {
-    id: 'call-1048',
-    callSid: 'CA8e321b8829ade6670a83d223fe09b',
-    callerId: '+1 (312) 555-8391',
-    callerName: 'Marcus Vance',
-    vertical: 'Marketplace',
-    voiceModel: 'Retell Turbo HD',
+    id: 'call-pu-1048',
+    callSid: 'CA-PU-8e321b8829ade6670a83d223fe09b',
+    callerId: '+91 97123 45678',
+    callerName: 'Aditya Dave',
+    vertical: 'Lost & Found',
+    campusLocation: 'PIET Engineering Hub A1',
+    voiceModel: 'Gemini 3.8 Live (Live API)',
     status: 'Completed',
-    durationSeconds: 108,
-    durationFormatted: '01:48',
-    latencyMs: 176,
-    packetJitterMs: 1.2,
-    timestamp: '2026-11-03T00:32:05Z',
-    dateFormatted: 'Today, 00:32',
+    durationSeconds: 110,
+    durationFormatted: '01:50',
+    latencyMs: 154,
+    packetJitterMs: 1.0,
+    timestamp: '2026-11-03T01:45:00Z',
+    dateFormatted: 'Today, 01:45',
     sentiment: 'Positive',
-    intent: 'Verify escrow release & delivery for Order #MP-4409',
-    summary: 'Buyer inquiring about funds release for camera gear sale. Agent verified buyer confirmation, released escrow disbursement of $1,850.00 to seller payout balance, and updated transaction status in real time.',
-    resolution: 'Escrow released and seller notified',
+    intent: 'Confirm calculator handover in PIET Room 204',
+    summary: 'Outbound check with finder Aditya Dave regarding Casio ClassWiz FX-991CW calculator found in Room 204 Electronics Lab. Verified details and logged intake record #RPT-PU-101.',
+    resolution: 'Item logged into PIET Porch security station registry',
     entities: [
-      { label: 'Order ID', value: 'MP-4409', category: 'Transaction', confidence: 0.99 },
-      { label: 'Amount', value: '$1,850.00 USD', category: 'Financial', confidence: 0.99 },
-      { label: 'Item', value: 'Leica M6 35mm Rangefinder', category: 'Catalog', confidence: 0.97 },
-      { label: 'Buyer Ack', value: 'Confirmed Received (FedEx #7781)', category: 'Logistics', confidence: 0.95 },
+      { label: 'Item Name', value: 'Casio ClassWiz FX-991CW', category: 'Stationery', confidence: 0.99 },
+      { label: 'Location', value: 'PIET A1 Room 204 Podium', category: 'Academic', confidence: 0.96 },
+      { label: 'Engraving', value: 'Initials R.K.', category: 'Identifier', confidence: 0.95 },
     ],
     transcript: [
-      { id: 't1', speaker: 'agent', text: 'Foundify Marketplace transaction desk. How may I assist your listing or transaction today?', timestamp: '00:01', latencyMs: 180 },
-      { id: 't2', speaker: 'caller', text: 'I am calling about order MP-4409. The buyer received the Leica camera yesterday, but the escrow balance is still showing pending.', timestamp: '00:09' },
-      { id: 't3', speaker: 'agent', text: 'Looking up order MP-4409 for the Leica M6. FedEx tracking confirms signed delivery yesterday afternoon. I see the buyer completed their inspection checklist 20 minutes ago.', timestamp: '00:16', latencyMs: 172 },
-      { id: 't4', speaker: 'caller', text: 'Awesome! So is the escrow unlocked?', timestamp: '00:22' },
-      { id: 't5', speaker: 'agent', text: 'Yes, I have triggered the automatic settlement. The one thousand eight hundred and fifty dollars has been posted to your primary Stripe payout schedule.', timestamp: '00:28', latencyMs: 176 },
-      { id: 't6', speaker: 'caller', text: 'Perfect, that was super fast. Appreciate it.', timestamp: '00:33' }
+      { id: 't1', speaker: 'agent', text: 'Good afternoon Aditya, Foundify AI calling from Parul University Lost & Found. Thank you for reporting a calculator found in PIET A1.', timestamp: '00:01', latencyMs: 150 },
+      { id: 't2', speaker: 'caller', text: 'Hey, yes! I left it with the PIET ground floor security desk right before my class.', timestamp: '00:08' },
+      { id: 't3', speaker: 'agent', text: 'Confirmed. We have updated report RPT-PU-101 with the desk log. We will automatically notify students whose profiles match the engraved initials.', timestamp: '00:16', latencyMs: 152 },
+      { id: 't4', speaker: 'caller', text: 'Awesome, thanks for the update.', timestamp: '00:21' }
     ],
-    costUsd: 0.036,
-    sipTrunk: 'ord-carrier-02.sip.foundify.ai'
+    costUsd: 0.029,
+    sipTrunk: 'pu-trunk-01.sip.foundify.ai'
   },
   {
-    id: 'call-1047',
-    callSid: 'CA7d210a7718zce5569z72c112ed98a',
-    callerId: '+1 (512) 555-4420',
-    callerName: 'Chloe Bennett',
-    vertical: 'Rentals',
-    voiceModel: 'Deepgram Nova-2 + Aura',
+    id: 'call-pu-1047',
+    callSid: 'CA-PU-7d210a7718zce5569z72c112ed98a',
+    callerId: '+91 98251 12345',
+    callerName: 'Sneha Sharma',
+    vertical: 'Lost & Found',
+    campusLocation: 'Food Court F1 Subway Area',
+    voiceModel: 'Gemini 3.8 Live (Live API)',
     status: 'Completed',
     durationSeconds: 95,
     durationFormatted: '01:35',
-    latencyMs: 165,
+    latencyMs: 142,
     packetJitterMs: 0.9,
-    timestamp: '2026-11-03T00:18:40Z',
-    dateFormatted: 'Today, 00:18',
+    timestamp: '2026-11-03T01:10:20Z',
+    dateFormatted: 'Today, 01:10',
     sentiment: 'Resolved',
-    intent: 'Rental property smart lock PIN access code recovery',
-    summary: 'Guest arrived at rental apartment #402 in Austin Downtown. Keypad PIN was not registering. Agent verified reservation credentials, cycled smart lock token via Z-Wave integration, and generated temporary 6-digit backup code 849-201.',
-    resolution: 'Smart lock reset, temporary PIN 849201 generated & confirmed',
+    intent: 'Inbound inquiry on lost Parul University ID lanyard',
+    summary: 'Student called Parul University Helpline Ext 102 inquiring about ID card lost near Food Court F1. Agent matched report RPT-PU-103 with the Food Court security point and scheduled desk pickup.',
+    resolution: 'ID Card located at Food Court entrance security cabin',
     entities: [
-      { label: 'Reservation', value: 'RN-8831 (Austin Loft 402)', category: 'Booking', confidence: 0.99 },
-      { label: 'Guest Name', value: 'Chloe Bennett', category: 'Identity', confidence: 0.98 },
-      { label: 'Smart Lock', value: 'Schlage Encode Plus Z-Wave', category: 'Hardware', confidence: 0.96 },
-      { label: 'Temp Passcode', value: '849-201 (Valid 72h)', category: 'Access', confidence: 0.99 },
+      { label: 'Item', value: 'Blue PU Lanyard + ID (IT Dept)', category: 'IDCard', confidence: 0.99 },
+      { label: 'Campus Spot', value: 'Food Court F1 Subway Table #4', category: 'Dining', confidence: 0.97 },
+      { label: 'Status', value: 'Ready for Collection', category: 'Resolution', confidence: 1.0 },
     ],
     transcript: [
-      { id: 't1', speaker: 'agent', text: 'Welcome to Foundify Smart Rentals Concierge. Please state your reservation code or phone number to access your rental services.', timestamp: '00:01', latencyMs: 170 },
-      { id: 't2', speaker: 'caller', text: 'Hi, I am standing outside unit 402 on 4th Street in Austin. The lock is flashing yellow when I type my code.', timestamp: '00:08' },
-      { id: 't3', speaker: 'agent', text: 'I see your active check-in for reservation RN-8831, Chloe. Let me ping the hub and generate a fresh keycode for you right now.', timestamp: '00:15', latencyMs: 162 },
-      { id: 't4', speaker: 'caller', text: 'Okay, standing right by the keypad.', timestamp: '00:19' },
-      { id: 't5', speaker: 'agent', text: 'The keypad is refreshed. Please enter eight, four, nine, two, zero, one, followed by the check mark.', timestamp: '00:25', latencyMs: 165 },
-      { id: 't6', speaker: 'caller', text: 'It chimed green and unlocked! Thank you so much.', timestamp: '00:32' },
-      { id: 't7', speaker: 'agent', text: 'Wonderful! You will also find high-speed Wi-Fi details inside on the refrigerator card. Enjoy your stay in Austin!', timestamp: '00:38', latencyMs: 158 }
+      { id: 't1', speaker: 'agent', text: 'Parul University Lost and Found Helpline. How can I assist you today?', timestamp: '00:01', latencyMs: 140 },
+      { id: 't2', speaker: 'caller', text: 'Hello, I lost my Parul University ID card somewhere in Food Court F1 during lunch.', timestamp: '00:07' },
+      { id: 't3', speaker: 'agent', text: 'I see a report logged 25 minutes ago for an IT department student ID card on a blue lanyard found near the Subway counter. Does your enrollment number end in 0891?', timestamp: '00:15', latencyMs: 144 },
+      { id: 't4', speaker: 'caller', text: 'Yes, that is mine! Where can I pick it up?', timestamp: '00:20' },
+      { id: 't5', speaker: 'agent', text: 'You can collect it directly from the Food Court entrance security point. Havildar Ramesh has it in the registry log.', timestamp: '00:27', latencyMs: 141 },
+      { id: 't6', speaker: 'caller', text: 'Thank you so much!', timestamp: '00:30' }
     ],
-    costUsd: 0.031,
-    sipTrunk: 'dfw-carrier-01.sip.foundify.ai'
+    costUsd: 0.025,
+    sipTrunk: 'pu-trunk-02.sip.foundify.ai'
   },
   {
-    id: 'call-1046',
-    callSid: 'CA6c109z6607ybd4458y61b001dc87z',
-    callerId: '+1 (206) 555-7319',
-    callerName: 'Devon Patel',
-    vertical: 'Services',
-    voiceModel: 'Cartesia Sonic Enterprise',
+    id: 'call-pu-1046',
+    callSid: 'CA-PU-6c109z6607ybd4458y61b001dc87z',
+    callerId: '+91 (2668) 260-312',
+    callerName: 'Officer Mahendra Rathod',
+    vertical: 'Lost & Found',
+    campusLocation: 'Central Security HQ (Building C5)',
+    voiceModel: 'Gemini 3.8 Live (Live API)',
     status: 'Completed',
     durationSeconds: 164,
     durationFormatted: '02:44',
-    latencyMs: 152,
-    packetJitterMs: 1.1,
+    latencyMs: 140,
+    packetJitterMs: 0.8,
     timestamp: '2026-11-02T23:54:19Z',
     dateFormatted: 'Yesterday, 23:54',
     sentiment: 'Positive',
-    intent: 'Emergency plumbing dispatch quote & tech routing',
-    summary: 'Homeowner reported ruptured kitchen main water valve. Agent walked caller through shutoff valve location, confirmed homeowner safety, and dispatched certified plumbing contractor with an estimated 28-minute ETA.',
-    resolution: 'Contractor dispatched with priority emergency dispatch ID #SV-228',
+    intent: 'Daily security vault custody ledger reconciliation',
+    summary: 'Autonomous telephony sync with Security Vault Room 102 officer. Reconciled 4 newly handed over items: AirPods Pro, Bike Key ring (Gate 1), Casio calculator, and Brown wallet from A24.',
+    resolution: 'All 4 items successfully indexed into Foundify Parul Campus Registry',
     entities: [
-      { label: 'Service Category', value: 'Emergency Master Plumbing', category: 'Vertical', confidence: 0.99 },
-      { label: 'Address', value: '2844 Queen Anne Ave N, Seattle', category: 'Geocoding', confidence: 0.97 },
-      { label: 'Dispatched Pro', value: 'Cascade Rapid Plumbing #14', category: 'Vendor', confidence: 0.96 },
-      { label: 'ETA', value: '28 minutes (Live GPS Tracking)', category: 'Dispatch', confidence: 0.98 },
+      { label: 'Security Officer', value: 'Mahendra Rathod (Badge #312)', category: 'Authority', confidence: 1.0 },
+      { label: 'Items Synced', value: '4 Custodial Deposits', category: 'Inventory', confidence: 0.99 },
+      { label: 'Vault Room', value: 'Building C5 Room 102', category: 'Vault', confidence: 0.99 },
     ],
     transcript: [
-      { id: 't1', speaker: 'agent', text: 'Foundify On-Demand Services emergency dispatch. Are you in immediate danger or is this a home utility incident?', timestamp: '00:01', latencyMs: 155 },
-      { id: 't2', speaker: 'caller', text: 'Water is gushing under my kitchen sink! I do not know how to shut it off completely.', timestamp: '00:06' },
-      { id: 't3', speaker: 'agent', text: 'First, let us stop the water flow. Look directly under the sink cabinet for two oval handles. Turn both clockwise until they stop. Can you reach them?', timestamp: '00:14', latencyMs: 150 },
-      { id: 't4', speaker: 'caller', text: 'Hold on... okay, turned both clockwise. The spraying slowed down to a trickle.', timestamp: '00:23' },
-      { id: 't5', speaker: 'agent', text: 'Excellent job. I have dispatched Cascade Rapid Plumbing to your verified address on Queen Anne Avenue. Tech Jordan is currently 4 miles away with an ETA of 28 minutes.', timestamp: '00:31', latencyMs: 154 },
-      { id: 't6', speaker: 'caller', text: 'Thank you! That was such a relief.', timestamp: '00:36' }
+      { id: 't1', speaker: 'agent', text: 'Foundify Automated Dispatch connecting to Central Security Desk Building C5. Ready for custody reconciliation.', timestamp: '00:01', latencyMs: 138 },
+      { id: 't2', speaker: 'caller', text: 'Good evening AI desk. Confirming token SEC-VAULT-2026-8841 for the AirPods and SEC-GATE1-KEYS-094 for the Honda bike keys.', timestamp: '00:10' },
+      { id: 't3', speaker: 'agent', text: 'Both tokens verified and linked to claimant verification queues. Outbound calls to verified owners are scheduled for dispatch.', timestamp: '00:18', latencyMs: 142 },
+      { id: 't4', speaker: 'caller', text: 'Understood. All items secured in Vault Locker 3.', timestamp: '00:23' }
     ],
-    costUsd: 0.052,
-    sipTrunk: 'sea-carrier-01.sip.foundify.ai'
+    costUsd: 0.042,
+    sipTrunk: 'pu-trunk-01.sip.foundify.ai'
   },
   {
-    id: 'call-1045',
-    callSid: 'CA5b098y5596xac3347x50a990cb76y',
-    callerId: '+1 (718) 555-9014',
-    callerName: 'Sarah Jenkins',
-    vertical: 'Giveaways',
-    voiceModel: 'ElevenLabs Flash v2.5',
+    id: 'call-pu-1045',
+    callSid: 'CA-PU-5b098y5596xac3347x50a990cb76y',
+    callerId: '+91 94280 65432',
+    callerName: 'Deepak Chaudhary',
+    vertical: 'Lost & Found',
+    campusLocation: 'Bhagat Singh Bhawan A24',
+    voiceModel: 'Gemini 3.8 Live (Live API)',
     status: 'Completed',
     durationSeconds: 88,
     durationFormatted: '01:28',
-    latencyMs: 204,
-    packetJitterMs: 2.1,
-    timestamp: '2026-11-02T23:31:40Z',
-    dateFormatted: 'Yesterday, 23:31',
-    sentiment: 'Positive',
-    intent: 'List community giveaway item (oak dining table & chairs)',
-    summary: 'Community donor offering solid 6-seater oak dining set for free neighborhood pickup. Agent logged dimensions, photos upload SMS prompt, set curb pickup availability window, and notified verified community members.',
-    resolution: 'Giveaway listing #GW-519 published to local Brooklyn radius',
-    entities: [
-      { label: 'Item Offer', value: 'Solid Oak Dining Set + 6 Chairs', category: 'Donation', confidence: 0.99 },
-      { label: 'Condition', value: 'Excellent (Minor surface wear)', category: 'Condition', confidence: 0.95 },
-      { label: 'Neighborhood', value: 'Brooklyn - Park Slope', category: 'Geo', confidence: 0.98 },
-      { label: 'Pickup Window', value: 'Saturday 10:00 AM - 2:00 PM', category: 'Logistics', confidence: 0.96 },
-    ],
-    transcript: [
-      { id: 't1', speaker: 'agent', text: 'Foundify Community Giveaways. Are you looking to donate items or claim a neighborhood listing today?', timestamp: '00:01', latencyMs: 205 },
-      { id: 't2', speaker: 'caller', text: 'I am moving this weekend and want to give away my solid oak dining table and six matching chairs to a local family.', timestamp: '00:09' },
-      { id: 't3', speaker: 'agent', text: 'That is wonderful! In which neighborhood are the items located, and what is your preferred pickup timeframe?', timestamp: '00:16', latencyMs: 198 },
-      { id: 't4', speaker: 'caller', text: 'Park Slope, Brooklyn. Saturday between 10am and 2pm would be ideal for ground floor pickup.', timestamp: '00:24' },
-      { id: 't5', speaker: 'agent', text: 'Perfect. Listing GW-519 has been posted to verified neighbors within a 3-mile radius. I just texted you a link to snap two photos if you would like to include them.', timestamp: '00:32', latencyMs: 206 },
-      { id: 't6', speaker: 'caller', text: 'Awesome, will take the photos right now. Thanks!', timestamp: '00:38' }
-    ],
-    costUsd: 0.029,
-    sipTrunk: 'jfk-carrier-01.sip.foundify.ai'
-  },
-  {
-    id: 'call-1044',
-    callSid: 'CA4a987x4485wzb2236w49z889ba65x',
-    callerId: '+1 (617) 555-3201',
-    callerName: 'Dr. Arthur Pendelton',
-    vertical: 'Lost & Found',
-    voiceModel: 'ElevenLabs Flash v2.5',
-    status: 'Transferred',
-    durationSeconds: 182,
-    durationFormatted: '03:02',
-    latencyMs: 224,
-    packetJitterMs: 2.4,
-    timestamp: '2026-11-02T22:15:00Z',
-    dateFormatted: 'Yesterday, 22:15',
-    sentiment: 'Frustrated',
-    intent: 'Urgent inquiry: Prescription cardiac medication lost in subway',
-    summary: 'Caller misplaced high-priority prescription cardiac medication on the MBTA Red Line train. Agent detected medical emergency keywords, gathered station data, and executed warm SIP transfer to the MBTA Transit Police Central Dispatch supervisor.',
-    resolution: 'Warm SIP transfer to Transit Police Dispatch; case flagged high priority',
-    entities: [
-      { label: 'Lost Property', value: 'Cardiology Prescription Bag (CVS)', category: 'Medical/Critical', confidence: 0.99 },
-      { label: 'Transit System', value: 'MBTA Red Line (Inbound South Station)', category: 'Transit', confidence: 0.98 },
-      { label: 'Urgency Tier', value: 'Tier 1 Medical Escalation', category: 'Priority', confidence: 1.00 },
-    ],
-    transcript: [
-      { id: 't1', speaker: 'agent', text: 'Foundify Transit Lost & Found. How can I help you today?', timestamp: '00:01', latencyMs: 215 },
-      { id: 't2', speaker: 'caller', text: 'This is urgent! I left a paper bag with critical heart medication on the Red Line train heading into South Station about 10 minutes ago!', timestamp: '00:09' },
-      { id: 't3', speaker: 'agent', text: 'Understood. Because this is critical prescription medicine, I am immediately routing you to the MBTA Transit Police Dispatch supervisor while transmitting your location data. Connecting now.', timestamp: '00:17', latencyMs: 220 },
-      { id: 't4', speaker: 'agent', text: '[SYSTEM: SIP Warm Transfer to MBTA-POLICE-09 initiated with caller metadata telemetry payload]', timestamp: '00:20', latencyMs: 140 }
-    ],
-    costUsd: 0.059,
-    sipTrunk: 'bos-carrier-01.sip.foundify.ai'
-  },
-  {
-    id: 'call-1043',
-    callSid: 'CA3z876w3374vya1125v38y778az54w',
-    callerId: '+1 (305) 555-1928',
-    callerName: 'Camila Rodriguez',
-    vertical: 'Rentals',
-    voiceModel: 'Retell Turbo HD',
-    status: 'Completed',
-    durationSeconds: 120,
-    durationFormatted: '02:00',
-    latencyMs: 182,
-    packetJitterMs: 1.4,
-    timestamp: '2026-11-02T21:40:12Z',
-    dateFormatted: 'Yesterday, 21:40',
+    latencyMs: 156,
+    packetJitterMs: 1.2,
+    timestamp: '2026-11-02T22:30:10Z',
+    dateFormatted: 'Yesterday, 22:30',
     sentiment: 'Resolved',
-    intent: 'Late checkout extension inquiry for Miami Beach Villa',
-    summary: 'Guest inquired if checkout could be extended from 11:00 AM to 3:00 PM. Agent checked host calendar, identified no incoming turnover until the following day, billed the $65 late-checkout fee, and updated the digital lock timetable.',
-    resolution: 'Extended checkout approved until 3:00 PM; lock code updated',
+    intent: 'Match notification: Wildhorn brown leather wallet',
+    summary: 'Outbound AI notification to Architecture student Deepak Chaudhary. Confirmed wallet found outside Studio 104 in A24 Bhagat Singh Bhawan. Issued recovery token.',
+    resolution: 'Verified match; claimant pass issued',
     entities: [
-      { label: 'Property', value: 'Villa Sol - South Beach (RN-3990)', category: 'Property', confidence: 0.99 },
-      { label: 'Extension', value: '11:00 AM -> 3:00 PM (+4 Hours)', category: 'Schedule', confidence: 0.97 },
-      { label: 'Fee Added', value: '$65.00 USD', category: 'Billing', confidence: 0.99 },
+      { label: 'Brand', value: 'Wildhorn Leather', category: 'Item', confidence: 0.98 },
+      { label: 'Building', value: 'A24 Bhagat Singh Bhawan', category: 'CampusGeo', confidence: 0.99 },
     ],
     transcript: [
-      { id: 't1', speaker: 'agent', text: 'Thank you for calling Foundify Concierge for Villa Sol. How can I enhance your stay today, Camila?', timestamp: '00:01', latencyMs: 185 },
-      { id: 't2', speaker: 'caller', text: 'Hi! Our flight got delayed until this evening. Can we request a late checkout until 3 PM today?', timestamp: '00:08' },
-      { id: 't3', speaker: 'agent', text: 'Let me inspect the housekeeping dispatch schedule. Good news: There is no incoming arrival until tomorrow afternoon. We can grant late checkout until 3:00 PM for sixty-five dollars.', timestamp: '00:16', latencyMs: 178 },
-      { id: 't4', speaker: 'caller', text: 'That is awesome, please go ahead and charge the card on file.', timestamp: '00:22' },
-      { id: 't5', speaker: 'agent', text: 'Done! Your digital door code will remain active until exactly 3:00 PM. Enjoy your remaining afternoon in Miami Beach!', timestamp: '00:29', latencyMs: 182 }
+      { id: 't1', speaker: 'agent', text: 'Hello Deepak, this is Foundify AI calling from Parul University. We have a confirmed match for your lost brown leather wallet.', timestamp: '00:01', latencyMs: 152 },
+      { id: 't2', speaker: 'caller', text: 'Oh fantastic! Does it have my Gujarat driving license inside?', timestamp: '00:07' },
+      { id: 't3', speaker: 'agent', text: 'Yes, your driving license and student library slip were confirmed by the A24 housekeeping supervisor. The wallet is at the A24 security entrance desk.', timestamp: '00:15', latencyMs: 155 },
+      { id: 't4', speaker: 'caller', text: 'Relief! I will head there first thing tomorrow morning.', timestamp: '00:21' }
     ],
-    costUsd: 0.040,
-    sipTrunk: 'mia-carrier-01.sip.foundify.ai'
+    costUsd: 0.024,
+    sipTrunk: 'pu-trunk-01.sip.foundify.ai'
   }
 ];
 
 export const SYSTEM_PROMPTS: Record<string, AgentPromptConfig> = {
   'Lost & Found': {
-    id: 'prompt-lf-01',
+    id: 'prompt-pu-campus-01',
     vertical: 'Lost & Found',
-    title: 'Foundify Item Recovery & Custody Intake Voice Agent',
-    systemPrompt: `You are the Foundify Lost & Found Telephony Voice Agent, operating on carrier-grade SIP low-latency streams.
-Your mission is to swiftly identify, verify, and resolve lost or found property claims across transit hubs, airports, hotels, and venues.
+    title: 'Parul University Campus Voice Calling Agent',
+    systemPrompt: `You are Foundify AI, the official intelligent voice calling assistant for Foundify, restricted EXCLUSIVELY to Parul University, Vadodara, Gujarat, India.
 
-Operational Directives:
-1. Greet callers professionally with minimal acoustic filler.
-2. Inquire about key physical identifiers: brand, color, distinguishing marks, contents, and precise location timestamp.
-3. Query the Foundify inventory custody ledger immediately via simulated tool call.
-4. If a match is found with >= 90% confidence, cross-verify secondary credentials (e.g. serial numbers, stickers, locked wallpaper descriptions).
-5. Offer instant digital claim link transmission via SMS.
-6. Tone: Calm, reassuring, clinical precision, zero friction.`,
-    temperature: 0.3,
-    speechRate: 1.05,
-    bargeInSensitivity: 85,
-    selectedVoice: 'ElevenLabs Flash - Adam (Acoustic Crisp)',
-    latencyTargetMs: 200,
-    toolsEnabled: ['queryCustodyVault', 'sendSmsVerification', 'triggerCourierDispatch', 'escalateToHumanSupervisor']
-  },
-  'Marketplace': {
-    id: 'prompt-mp-01',
-    vertical: 'Marketplace',
-    title: 'Foundify Escrow & Transaction Concierge Agent',
-    systemPrompt: `You are the Foundify Marketplace Telephony Voice Agent.
-You handle buyer/seller inquiries, payment escrow disputes, shipping delivery milestones, and instant buyer-seller message routing.
-
-Operational Directives:
-1. Verify order ID format (e.g., MP-XXXX).
-2. Check real-time escrow lock status and integrated logistics tracking (FedEx, UPS, DHL).
-3. If delivery confirmation is recorded and inspection window cleared, release escrow payouts instantly.
-4. Adhere to strict anti-fraud verification protocols; never disclose full card numbers or private tax IDs.
-5. Tone: Crisp, trustworthy, decisive commercial confidence.`,
+CRITICAL CAMPUS RULES:
+1. Support ONLY Parul University. Never accept reports or discuss items from any other university.
+2. Resolve locations using actual campus identifiers:
+   - Academic: A1 (PIET Engineering), A2 (PIT), A3 (Pharmacy), A4 (FMS), A24 (Bhagat Singh Bhawan), A25 (C.V. Raman Centre), A27 (Central Library), A Block, B Block, C Block, D Block.
+   - Admin & Security: C1 (Admin), C3 (Exam), C5 (Central Security HQ & Vault Room 102).
+   - Food Courts: F1 (Food Fiesta), F2 (Nescafe Circle), F3 (Hostel Mess).
+   - Hostels: H4 (Tagore), H12 (Kalam), H20 (Sarojini Naidu Girls), H32 (International).
+   - Hospital: E1 (Parul Sevashram Hospital).
+   - Sports: G1 (Cricket/Football Ground), G2 (Indoor Sports).
+   - Parking: P1 (Gate 1), P2 (Library), P3 (Hostel Bay).
+3. If user asks about off-campus or non-lost-and-found matters (e.g. general homework, coding help, other colleges), politely deflect: "Foundify AI is strictly dedicated to lost and found belongings across Parul University campus."
+4. Human Voice Quality: Sound natural, empathetic, crisp, and concise like ChatGPT Voice. Use spoken Telugu, Hindi, or English as requested.
+5. In outbound calls, introduce as Foundify AI from Parul University, state the matched item, ask 1 relevant clarifying question at a time, and coordinate pickup or vault handover with tokens.`,
     temperature: 0.25,
     speechRate: 1.0,
-    bargeInSensitivity: 75,
-    selectedVoice: 'Retell Turbo - Marcus (Commercial Neutral)',
+    bargeInSensitivity: 85,
+    selectedVoice: 'Zephyr (Warm & Professional Human Voice)',
     latencyTargetMs: 180,
-    toolsEnabled: ['queryOrderState', 'releaseEscrowBalance', 'openDisputeMediation', 'sendBuyerSmsNotice']
+    toolsEnabled: ['queryCampusDatabase', 'generateVaultToken', 'dispatchStudentSmsPass', 'transferToSecurityOfficer']
+  },
+  'Marketplace': {
+    id: 'prompt-pu-mp',
+    vertical: 'Marketplace',
+    title: 'Parul Student Marketplace Desk',
+    systemPrompt: 'Campus student exchange and textbook marketplace assistant for Parul University students.',
+    temperature: 0.3,
+    speechRate: 1.0,
+    bargeInSensitivity: 75,
+    selectedVoice: 'Puck (Friendly & Dynamic Human Voice)',
+    latencyTargetMs: 180,
+    toolsEnabled: ['queryListings', 'verifyStudentId']
   },
   'Rentals': {
-    id: 'prompt-rn-01',
+    id: 'prompt-pu-rn',
     vertical: 'Rentals',
-    title: 'Foundify Smart Property & Lock Access Concierge',
-    systemPrompt: `You are the Foundify Smart Rental Telephony Voice Agent.
-You manage property access, keypad PIN resets, Wi-Fi inquiries, emergency maintenance alerts, and checkout adjustments.
-
-Operational Directives:
-1. Verify caller phone number against active reservation rosters.
-2. Troubleshoot smart lock errors (Z-Wave / Zigbee / Wi-Fi locks) with direct step-by-step keypad guidance.
-3. Check cleaning turnover schedules before approving late checkouts.
-4. Generate temporary 6-digit access tokens when primary codes fail.
-5. Tone: Warm hospitality, rapid problem resolution, high security compliance.`,
-    temperature: 0.35,
-    speechRate: 1.02,
+    title: 'Campus Bicycle & Lab Locker Rental Agent',
+    systemPrompt: 'Coordinates campus EV cycle stations and student research locker access at Parul University.',
+    temperature: 0.3,
+    speechRate: 1.0,
     bargeInSensitivity: 80,
-    selectedVoice: 'Deepgram Nova - Rachel (Warm Telephony)',
+    selectedVoice: 'Kore (Calm & Clear Human Voice)',
     latencyTargetMs: 170,
-    toolsEnabled: ['queryReservation', 'cycleSmartLockPin', 'checkTurnoverSchedule', 'billIncidentalFee']
+    toolsEnabled: ['cycleLockerCode', 'checkCycleStatus']
   },
   'Services': {
-    id: 'prompt-sv-01',
+    id: 'prompt-pu-sv',
     vertical: 'Services',
-    title: 'Foundify Emergency Dispatch & Pro Routing Operator',
-    systemPrompt: `You are the Foundify On-Demand Services Telephony Voice Agent.
-You coordinate immediate technician dispatch for plumbing, electrical, locksmith, HVAC, and cleaning emergencies.
-
-Operational Directives:
-1. Assess incident severity in the first 10 seconds (e.g., active water leak, power outage, lockout).
-2. Provide immediate triage instructions to prevent property damage (e.g., water shutoff valve instructions).
-3. Pinpoint geo-coordinates and identify nearest available vetted contractor with minimum ETA.
-4. Quote standard transparent dispatch deposits and dispatch pro with GPS tracking.
-5. Tone: Authoritative, reassuring, rapid triage tempo.`,
+    title: 'Campus Maintenance & IT Support Dispatch',
+    systemPrompt: 'Campus hostel electrician, plumber, and lab workstation maintenance dispatch.',
     temperature: 0.2,
-    speechRate: 1.08,
+    speechRate: 1.05,
     bargeInSensitivity: 90,
-    selectedVoice: 'Cartesia Sonic - Sarah (Urgent Clarity)',
+    selectedVoice: 'Charon (Authoritative & Deep Human Voice)',
     latencyTargetMs: 150,
-    toolsEnabled: ['lookupNearestPro', 'provideTriageStep', 'createDispatchTicket', 'sendLiveGpsTrackingLink']
+    toolsEnabled: ['dispatchTechnician', 'checkHostelTicket']
   },
   'Giveaways': {
-    id: 'prompt-gw-01',
+    id: 'prompt-pu-gw',
     vertical: 'Giveaways',
-    title: 'Foundify Community Giveaway Intake & Coordination Agent',
-    systemPrompt: `You are the Foundify Community Giveaways Telephony Voice Agent.
-You facilitate circular community sharing by recording item donations, verifying pickup windows, and matching local neighbors.
-
-Operational Directives:
-1. Clarify item category, dimensions, and approximate weight.
-2. Confirm neighborhood boundary and donor pickup rules (e.g., porch pickup, ground floor assistance).
-3. SMS donor a direct photo link to enrich the listing.
-4. Broadcast new listing to verified community members seeking free furnishings and appliances.
-5. Tone: Friendly, community-oriented, cheerful, efficient.`,
-    temperature: 0.4,
+    title: 'Campus Senior-to-Junior Book & Stationery Giveaways',
+    systemPrompt: 'Facilitates textbook, lab coats, drafter, and stationery donations between graduating seniors and junior batches at Parul University.',
+    temperature: 0.35,
     speechRate: 1.0,
     bargeInSensitivity: 70,
-    selectedVoice: 'ElevenLabs Flash - Matilda (Community Warm)',
-    latencyTargetMs: 210,
-    toolsEnabled: ['publishGiveawayListing', 'sendPhotoUploadLink', 'notifyLocalNeighborhoodRadius']
+    selectedVoice: 'Aoede (Expressive & Melodic Human Voice)',
+    latencyTargetMs: 200,
+    toolsEnabled: ['postDonation', 'matchStudentBatch']
   }
 };
 
 export const PHONE_NUMBERS: PhoneNumberRecord[] = [
   {
-    id: 'pn-1',
-    number: '+1 (415) 890-3411',
-    country: 'US',
+    id: 'pn-pu-1',
+    number: '+91 (2668) 260-312',
+    country: 'IN',
     vertical: 'Lost & Found',
-    assignedAgent: 'Recovery Intake Agent v2.5',
-    sipUri: 'sip:intake-lf@sfo.foundify.ai',
+    assignedAgent: 'Parul University Central Lost & Found Helpline (Ext 102)',
+    sipUri: 'sip:lostfound@trunk.paruluniversity.ac.in',
     status: 'Active',
-    monthlyMinutes: 8420,
-    lastActive: '3 min ago'
-  },
-  {
-    id: 'pn-2',
-    number: '+1 (415) 890-3412',
-    country: 'US',
-    vertical: 'Marketplace',
-    assignedAgent: 'Escrow Concierge Agent HD',
-    sipUri: 'sip:market-escrow@sfo.foundify.ai',
-    status: 'Active',
-    monthlyMinutes: 5190,
-    lastActive: '12 min ago'
-  },
-  {
-    id: 'pn-3',
-    number: '+1 (512) 600-8840',
-    country: 'US',
-    vertical: 'Rentals',
-    assignedAgent: 'Smart Lock & Hospitality Agent',
-    sipUri: 'sip:rentals-austin@dfw.foundify.ai',
-    status: 'Active',
-    monthlyMinutes: 6730,
-    lastActive: '8 min ago'
-  },
-  {
-    id: 'pn-4',
-    number: '+1 (206) 400-9122',
-    country: 'US',
-    vertical: 'Services',
-    assignedAgent: 'Emergency Dispatch Pro v1.2',
-    sipUri: 'sip:dispatch-sea@sea.foundify.ai',
-    status: 'Active',
-    monthlyMinutes: 11400,
+    monthlyMinutes: 12450,
     lastActive: 'Just now'
   },
   {
-    id: 'pn-5',
-    number: '+1 (718) 390-1105',
-    country: 'US',
-    vertical: 'Giveaways',
-    assignedAgent: 'Community Sharing Coordinator',
-    sipUri: 'sip:giveaways-nyc@jfk.foundify.ai',
+    id: 'pn-pu-2',
+    number: '+91 (2668) 260-204',
+    country: 'IN',
+    vertical: 'Lost & Found',
+    assignedAgent: 'PIET Engineering Hub A1 Desk (Ext 204)',
+    sipUri: 'sip:piet-desk@trunk.paruluniversity.ac.in',
     status: 'Active',
-    monthlyMinutes: 2890,
-    lastActive: '26 min ago'
+    monthlyMinutes: 8320,
+    lastActive: '4 min ago'
+  },
+  {
+    id: 'pn-pu-3',
+    number: '+91 (2668) 260-270',
+    country: 'IN',
+    vertical: 'Lost & Found',
+    assignedAgent: 'Central Library A27 Knowledge Desk (Ext 270)',
+    sipUri: 'sip:library-desk@trunk.paruluniversity.ac.in',
+    status: 'Active',
+    monthlyMinutes: 9810,
+    lastActive: '2 min ago'
+  },
+  {
+    id: 'pn-pu-4',
+    number: '+91 (2668) 260-501',
+    country: 'IN',
+    vertical: 'Lost & Found',
+    assignedAgent: 'Central Security Vault HQ Building C5 (Ext 501)',
+    sipUri: 'sip:security-vault@trunk.paruluniversity.ac.in',
+    status: 'Active',
+    monthlyMinutes: 15400,
+    lastActive: 'Just now'
+  },
+  {
+    id: 'pn-pu-5',
+    number: '+91 (2668) 260-401',
+    country: 'IN',
+    vertical: 'Lost & Found',
+    assignedAgent: 'Hostel Resident Property Desk H4 Tagore (Ext 401)',
+    sipUri: 'sip:hostel-desk@trunk.paruluniversity.ac.in',
+    status: 'Active',
+    monthlyMinutes: 4200,
+    lastActive: '18 min ago'
   }
 ];
 
 export const TELEMETRY_METRICS = {
-  totalCallsToday: 1428,
-  avgHandleTimeSeconds: 108, // 1m 48s
-  avgHandleTimeFormatted: '1m 48s',
-  p95FirstByteLatencyMs: 182,
-  resolutionRatePercent: 88.4,
-  costPerMinuteUsd: 0.038,
-  activeLiveCalls: 6,
-  sipPacketLossRate: 0.02, // 0.02%
+  totalCallsToday: 412,
+  avgHandleTimeSeconds: 114,
+  avgHandleTimeFormatted: '1m 54s',
+  p95FirstByteLatencyMs: 148,
+  resolutionRatePercent: 94.2,
+  costPerMinuteUsd: 0.024,
+  activeLiveCalls: 3,
+  sipPacketLossRate: 0.01,
   verticalBreakdown: [
-    { vertical: 'Lost & Found', count: 542, share: 38, avgDuration: '2m 14s', latency: '198ms', color: '#64748B' },
-    { vertical: 'Services', count: 342, share: 24, avgDuration: '2m 40s', latency: '154ms', color: '#F59E0B' },
-    { vertical: 'Rentals', count: 257, share: 18, avgDuration: '1m 35s', latency: '168ms', color: '#0284C7' },
-    { vertical: 'Marketplace', count: 186, share: 13, avgDuration: '1m 50s', latency: '176ms', color: '#4F46E5' },
-    { vertical: 'Giveaways', count: 101, share: 7, avgDuration: '1m 24s', latency: '204ms', color: '#10B981' }
+    { vertical: 'Lost & Found', count: 328, share: 80, avgDuration: '1m 58s', latency: '142ms', color: '#2563EB' },
+    { vertical: 'Security Vault', count: 48, share: 12, avgDuration: '2m 10s', latency: '150ms', color: '#10B981' },
+    { vertical: 'Helpline Inbound', count: 36, share: 8, avgDuration: '1m 32s', latency: '138ms', color: '#F59E0B' },
   ],
   hourlyLatency: [
-    { hour: '00:00', latency: 178, calls: 32 },
-    { hour: '04:00', latency: 164, calls: 18 },
-    { hour: '08:00', latency: 195, calls: 94 },
-    { hour: '12:00', latency: 205, calls: 168 },
-    { hour: '16:00', latency: 189, calls: 142 },
-    { hour: '20:00', latency: 174, calls: 86 }
+    { hour: '08:00', latency: 140, calls: 24 },
+    { hour: '10:00', latency: 146, calls: 68 },
+    { hour: '12:00', latency: 152, calls: 112 },
+    { hour: '14:00', latency: 145, calls: 98 },
+    { hour: '16:00', latency: 148, calls: 74 },
+    { hour: '18:00', latency: 142, calls: 36 }
   ]
 };

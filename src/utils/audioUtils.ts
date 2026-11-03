@@ -60,17 +60,131 @@ export function play24kPCMChunk(
   return source;
 }
 
-// Play complete WAV base64 audio
-export function playWavBase64(base64Audio: string): Promise<HTMLAudioElement> {
-  return new Promise((resolve, reject) => {
+// Play complete WAV base64 audio with safe fallback for browser autoplay restrictions
+export function playWavBase64(base64Audio: string): Promise<HTMLAudioElement | null> {
+  return new Promise((resolve) => {
     try {
+      if (!base64Audio || typeof base64Audio !== 'string') {
+        resolve(null);
+        return;
+      }
       const audio = new Audio(`data:audio/wav;base64,${base64Audio}`);
-      audio.onended = () => resolve(audio);
-      audio.onerror = (e) => reject(e);
-      audio.play().catch(reject);
-      resolve(audio);
+      audio.onended = () => {
+        // completed playback
+      };
+      audio.onerror = () => {
+        resolve(null);
+      };
+
+      const playPromise = audio.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            resolve(audio);
+          })
+          .catch((err) => {
+            console.warn('Audio playback notice (browser autoplay policy or decode):', err?.message || err);
+            resolve(null);
+          });
+      } else {
+        resolve(audio);
+      }
     } catch (err) {
-      reject(err);
+      resolve(null);
     }
   });
 }
+
+/**
+ * GaplessPCMPlayer: Schedules 24kHz PCM chunks back-to-back using Web Audio API
+ * Avoids audio clicks, pauses, and overlaps during Gemini Live API streaming
+ */
+export class GaplessPCMPlayer {
+  private audioCtx: AudioContext | null = null;
+  private nextStartTime: number = 0;
+  private activeNodes: AudioBufferSourceNode[] = [];
+  public isPlaying: boolean = false;
+
+  constructor(sampleRate: number = 24000) {
+    if (typeof window !== 'undefined') {
+      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      if (AudioContextClass) {
+        this.audioCtx = new AudioContextClass({ sampleRate });
+      }
+    }
+  }
+
+  async resume() {
+    if (this.audioCtx && this.audioCtx.state === 'suspended') {
+      await this.audioCtx.resume();
+    }
+  }
+
+  enqueueChunk(base64Audio: string, onPlayStateChange?: (playing: boolean) => void) {
+    if (!this.audioCtx || this.audioCtx.state === 'closed') return;
+
+    try {
+      const arrayBuffer = base64ToArrayBuffer(base64Audio);
+      const int16Array = new Int16Array(arrayBuffer);
+      const float32Array = new Float32Array(int16Array.length);
+
+      for (let i = 0; i < int16Array.length; i++) {
+        float32Array[i] = int16Array[i] / 32768.0;
+      }
+
+      const audioBuffer = this.audioCtx.createBuffer(1, float32Array.length, 24000);
+      audioBuffer.getChannelData(0).set(float32Array);
+
+      const source = this.audioCtx.createBufferSource();
+      source.buffer = audioBuffer;
+      source.connect(this.audioCtx.destination);
+
+      const currentTime = this.audioCtx.currentTime;
+      if (this.nextStartTime < currentTime) {
+        this.nextStartTime = currentTime;
+      }
+
+      source.start(this.nextStartTime);
+      this.nextStartTime += audioBuffer.duration;
+      this.activeNodes.push(source);
+
+      if (!this.isPlaying) {
+        this.isPlaying = true;
+        onPlayStateChange?.(true);
+      }
+
+      source.onended = () => {
+        const index = this.activeNodes.indexOf(source);
+        if (index > -1) {
+          this.activeNodes.splice(index, 1);
+        }
+        if (this.activeNodes.length === 0) {
+          this.isPlaying = false;
+          onPlayStateChange?.(false);
+        }
+      };
+    } catch (err) {
+      console.warn('Gapless playback chunk error:', err);
+    }
+  }
+
+  stop() {
+    this.activeNodes.forEach((node) => {
+      try {
+        node.stop();
+      } catch (e) {}
+    });
+    this.activeNodes = [];
+    this.nextStartTime = 0;
+    this.isPlaying = false;
+  }
+
+  close() {
+    this.stop();
+    if (this.audioCtx && this.audioCtx.state !== 'closed') {
+      this.audioCtx.close();
+    }
+    this.audioCtx = null;
+  }
+}
+

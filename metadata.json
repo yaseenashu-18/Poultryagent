@@ -1,6 +1,6 @@
 {
-  "name": "Foundify Voice AI",
-  "description": "Enterprise voice intelligence platform for high-speed automated telephony across Lost & Found, Marketplace, Rentals, On-Demand Services, and Community Giveaways.",
+  "name": "Foundify AI Calling Agent",
+  "description": "Autonomous AI Calling Agent Platform for Parul University campus lost and found operations, outbound match verification, and security vault dispatch.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
