@@ -1,0 +1,6 @@
+{
+  "name": "Foundify Voice AI",
+  "description": "Enterprise voice intelligence platform for high-speed automated telephony across Lost & Found, Marketplace, Rentals, On-Demand Services, and Community Giveaways.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
